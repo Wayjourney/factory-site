@@ -48,3 +48,6 @@ wp-config.php
 #/wp-content/themes
 
 .DS_Store
+
+# npm
+/node_modules

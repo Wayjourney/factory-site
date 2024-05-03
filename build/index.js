@@ -18,7 +18,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 
 
-
 function ExampleReactComponent() {
   const [clickCount, setClickCount] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(0);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -32,7 +31,6 @@ function ExampleReactComponent() {
     className: "text-yellow-200 font-bold"
   }, clickCount), " times."));
 }
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ExampleReactComponent);
 
 /***/ }),
@@ -52,13 +50,10 @@ class Person {
     this.name = name;
     this.greet();
   }
-
   greet() {
     console.log(`Hello, my name is ${this.name}.`);
   }
-
 }
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Person);
 
 /***/ }),
@@ -182,7 +177,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const person1 = new _scripts_Person__WEBPACK_IMPORTED_MODULE_1__["default"]("Brad");
-
 if (document.querySelector("#render-react-example-here")) {
   react_dom__WEBPACK_IMPORTED_MODULE_4___default().render((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_scripts_ExampleReactComponent__WEBPACK_IMPORTED_MODULE_2__["default"], null), document.querySelector("#render-react-example-here"));
 }
