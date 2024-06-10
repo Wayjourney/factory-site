@@ -2,11 +2,11 @@
 <html <?php language_attributes(); ?>>
   <head>
     <meta charset="<?php bloginfo('charset'); ?>">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <?php wp_head(); ?>
   </head>
   <body <?php body_class(); ?>>
-    <header class="relative isolate z-10 bg-white">
+    <header class="relative isolate z-10 bg-white" x-data="{ open: false, mobileOpen: false, productsOpen: false }">
       <nav class="mx-auto flex max-w-screen-xl items-center justify-between p-6 lg:px-8" aria-label="Global">
         <div class="flex lg:flex-1">
           <a href="/" class="-m-1.5 p-1.5">
@@ -15,13 +15,19 @@
           </a>
         </div>
         <div class="flex lg:hidden">
-          <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
+          <button x-show="!mobileOpen" type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700" @click="mobileOpen = !mobileOpen">
             <span class="sr-only">Open main menu</span>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon" class="h-6 w-6"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"></path></svg>
           </button>
+          <button x-init="$el.classList.remove('hidden')" x-show="mobileOpen" type="button" class="hidden -m-2.5 rounded-md p-2.5 text-gray-700" @click="mobileOpen = !mobileOpen">
+            <span class="sr-only">Close menu</span>
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
         </div>
         <div class="hidden lg:flex lg:gap-x-12">
-          <div x-data="{ open: false }">
+          <div>
             <button @click="open = !open" class="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900 outline-none" type="button" aria-expanded="false">
               产品中心
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" data-slot="icon" class="h-5 w-5 flex-none text-gray-400"><path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd"></path></svg>
@@ -90,5 +96,36 @@
           <a href="/about" class="text-sm font-semibold leading-6 text-gray-900">关于我们</a>
         </div>
       </nav>
-      <div style="position:fixed;top:1px;left:1px;width:1px;height:0;padding:0;margin:-1px;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border-width:0;display:none"></div>
+      <!-- Mobile menu, show/hide based on menu open state. -->
+      <div x-init="$el.classList.remove('hidden')" x-show="mobileOpen" class="hidden lg:hidden" role="dialog" aria-modal="true">
+        <!-- Background backdrop, show/hide based on slide-over state. -->
+        <div class="fixed inset-0 top-[80px] z-10" @click="mobileOpen = false"></div>
+        <div class="absolute top-[80px] z-10 w-full bg-white px-6 pb-6 border-b border-gray-900/10">
+          <div class="divide-y divide-gray-500/10">
+            <div class="space-y-2">
+              <div class="-mx-3">
+                <button type="button" class="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50" aria-controls="disclosure-1" aria-expanded="false" @click="productsOpen = !productsOpen">
+                  产品中心
+                  <!--
+                    Expand/collapse icon, toggle classes based on menu open state.
+
+                    Open: "rotate-180", Closed: ""
+                  -->
+                  <svg class="h-5 w-5 flex-none" :class="{'rotate-180': productsOpen}" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+                  </svg>
+                </button>
+                <!-- 'Product' sub-menu, show/hide based on menu state. -->
+                <div x-init="$el.classList.remove('hidden')" x-show="productsOpen" class="hidden mt-2 space-y-2" id="disclosure-1">
+                  <a href="#" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">隔热砖</a>
+                  <a href="#" class="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50">浇注料</a>
+                </div>
+              </div>
+              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">解决方案</a>
+              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">客户案例</a>
+              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">服务支持</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </header>
